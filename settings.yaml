@@ -1,0 +1,10 @@
+vars:
+  base: /base/
+
+decisions:
+  Tiene gatito:
+    Chikito: $base/chikito
+    Gordito: ${base}/gordito
+  Tiene perrito: $base/perrito
+  Otro:
+    _directory: $base/otro

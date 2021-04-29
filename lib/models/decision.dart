@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 
+import 'package:control_p2/util/extensions/map.dart';
+
 /// Represents a decision about how to clasify a file.
 ///
 /// This normally comes from the settings yaml.
@@ -66,6 +68,23 @@ class Decision extends Equatable {
 
   /// From yaml settings
   factory Decision.fromYamlSettings(String name, dynamic content) {
-    throw UnimplementedError();
+    if (content is String) {
+      return Decision(name: name, directory: Directory(content), children: []);
+    } else if (content is Map) {
+      final underscore =
+          content.filter((e) => e.key.toString().startsWith('_'));
+      final nonUnderscore = content.withoutKeys(underscore.keys);
+
+      final directory = underscore['_directory'] != null
+          ? Directory(underscore['_directory'])
+          : null;
+      final children = nonUnderscore.entries
+          .map((e) => Decision.fromYamlSettings(e.key, e.value))
+          .toList();
+
+      return Decision(name: name, children: children, directory: directory);
+    } else {
+      throw 'Invalid yaml settings. The value of a decision can only be of type "String" or "Map".';
+    }
   }
 }

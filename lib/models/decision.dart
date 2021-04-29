@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 
 import 'package:control_p2/util/extensions/map.dart';
 
 /// Represents a decision about how to clasify a file.
 ///
 /// This normally comes from the settings yaml.
+@immutable
 class Decision extends Equatable {
   /// The decision name used for displaying the option.
   /// It must be unique among its siblings.

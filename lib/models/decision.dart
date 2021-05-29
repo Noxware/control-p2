@@ -89,4 +89,10 @@ class Decision extends Equatable {
       throw 'Invalid yaml settings. The value of a decision can only be of type "String" or "Map".';
     }
   }
+
+  /// Check if the desicion is a final desicion.
+  ///
+  /// A final desicion is a desicion that has an asociated directory, so it can
+  /// be used as a target
+  bool get isFinal => directory != null;
 }

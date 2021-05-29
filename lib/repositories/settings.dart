@@ -27,4 +27,9 @@ class SettingsRepository {
   Future<List<Decision>> getDecisions() async {
     return (await _getSettings()).decisions;
   }
+
+  /// (Temp) The current working directory
+  Future<Directory> getWorkingDirectory() async {
+    return (await _getSettings()).workingDirectory;
+  }
 }

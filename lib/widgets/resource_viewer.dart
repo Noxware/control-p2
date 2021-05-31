@@ -58,7 +58,10 @@ class _ResourceViewerState extends State<ResourceViewer> {
 
         final text = snapshot.data as String;
 
-        return SelectableText(text);
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SelectableText(text),
+        );
       },
     );
   }
@@ -80,16 +83,18 @@ class _ResourceViewerState extends State<ResourceViewer> {
   }
 
   Widget _other(BuildContext context) {
-    return Column(
-      children: [
-        Text(widget.resource.uri.toString()),
-        ElevatedButton(
-          child: Text('Open URI'),
-          onPressed: () {
-            launch(widget.resource.uri.toString());
-          },
-        ),
-      ],
+    return Center(
+      child: Column(
+        children: [
+          Text(widget.resource.uri.toString()),
+          ElevatedButton(
+            child: Text('Open URI'),
+            onPressed: () {
+              launch(widget.resource.uri.toString());
+            },
+          ),
+        ],
+      ),
     );
   }
 

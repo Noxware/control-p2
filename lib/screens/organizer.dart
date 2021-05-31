@@ -48,7 +48,7 @@ class Organizer extends StatelessWidget {
 
   Widget _viewer(BuildContext context, OrganizerSnapshot state) {
     if (state.isEmpty) {
-      return Text('Organization complete');
+      return Center(child: Text('Organization complete'));
     }
 
     return ResourceViewer(resource: state.resource!);

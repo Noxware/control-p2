@@ -1,36 +1,45 @@
-import 'dart:html';
+import 'dart:io';
 
 import 'package:control_p2/models/models.dart';
+import 'package:control_p2/util/extensions/file.dart';
 
 import 'settings.dart';
 
 /// Provides an abstraction to get and organize resources based on decisions
 class OrganizerRepository {
-  final SettingsRepository _settingsRepository;
+  final SettingsRepository settingsRepository;
 
-  OrganizerRepository({required SettingsRepository settingsRepository})
-      : _settingsRepository = settingsRepository;
+  OrganizerRepository({
+    required this.settingsRepository,
+  });
 
   /// Get available resources to organize
   Future<List<Resource>> getResources() async {
-    final dir = await _settingsRepository.getWorkingDirectory();
-    return await dir
+    final dirs = await settingsRepository.getWorkingDirectories();
+    final listsFutures = dirs.map((d) => d
         .list()
         .where((e) => e is File)
         .map((e) => Resource(e.absolute.uri))
-        .toList();
+        .toList());
+
+    return (await Future.wait(listsFutures)).expand((f) => f).toList();
   }
 
   /// Get the list of available decisions
-  Future<List<Decision>> getDecisions() {
-    throw UnimplementedError();
+  Future<List<Decision>> getDecisions() async {
+    return await settingsRepository.getDecisions();
   }
 
   /// Organize a resource based on a final decision taked.
   ///
   /// The decision must have a directory associated.
-  Future<void> organize(Resource res, Decision des) {
-    throw UnimplementedError();
+  Future<void> organize(Resource r, Decision d) async {
+    if (!d.isFinal) {
+      throw 'The decision must be a final decision.';
+    }
+
+    final rFile = File.fromUri(r.uri);
+    await rFile.safeMoveToDirectory(d.directory!);
   }
 
   // move(resource, uri)?

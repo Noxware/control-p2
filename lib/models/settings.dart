@@ -15,13 +15,13 @@ class Settings extends Equatable {
   final List<Decision> decisions;
 
   /// (Temp) The selected folder to organize
-  final Directory workingDirectory;
+  final List<Directory> workingDirectories;
 
   /// Main constructor
   const Settings({
     required this.vars,
     required this.decisions,
-    required this.workingDirectory,
+    required this.workingDirectories,
   });
 
   /// Constructs from a standard json
@@ -49,12 +49,13 @@ class Settings extends Equatable {
         .entries
         .map((e) => Decision.fromYamlSettings(e.key, e.value))
         .toList();
-    final workingDirectory = Directory(yaml['working_dir']);
+    final workingDirs =
+        (yaml['working_dirs'] as List).map((d) => Directory(d)).toList();
 
     return Settings(
       vars: vars,
       decisions: decisions,
-      workingDirectory: workingDirectory,
+      workingDirectories: workingDirs,
     );
   }
 
@@ -62,15 +63,15 @@ class Settings extends Equatable {
   Settings copyWith({
     Map<String, dynamic>? vars,
     List<Decision>? decisions,
-    Directory? workingDirectory,
+    List<Directory>? workingDirectory,
   }) {
     return Settings(
       vars: vars ?? this.vars,
       decisions: decisions ?? this.decisions,
-      workingDirectory: workingDirectory ?? this.workingDirectory,
+      workingDirectories: workingDirectory ?? this.workingDirectories,
     );
   }
 
   @override
-  List<Object?> get props => [vars, decisions, workingDirectory];
+  List<Object?> get props => [vars, decisions, workingDirectories];
 }

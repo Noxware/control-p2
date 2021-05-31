@@ -1,0 +1,14 @@
+
+vars:
+  gdrive: D:\User\Google Drive\control-p2-files
+
+working_dirs:
+  - C:\Users\Noxware\Desktop\prueba
+
+decisions:
+  Tiene gatito:
+    Chikito: $gdrive/Gatitos/Chikitos
+    Gordito: $gdrive/Gatitos/Gorditos
+  Tiene perrito: $gdrive/Perritos
+  Otro:
+    _directory: $gdrive/Otros

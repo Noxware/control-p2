@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:yaml/yaml.dart';
 import 'package:flutter/services.dart';
 
@@ -13,9 +14,15 @@ class SettingsRepository {
   static Future<Settings> _getSettings() async {
     final file = File('./settings.yaml');
 
+    // Sync because if two parallel calls are made, one is going to try to delete
+    // a non existing file
+    if (!kReleaseMode && file.existsSync()) {
+      file.deleteSync();
+    }
+
     if (!await file.exists()) {
       final template = await rootBundle.loadString('assets/settings.yaml');
-      file.writeAsString(template);
+      await file.writeAsString(template);
     }
 
     final content = await file.readAsString();
@@ -28,8 +35,8 @@ class SettingsRepository {
     return (await _getSettings()).decisions;
   }
 
-  /// (Temp) The current working directory
-  Future<Directory> getWorkingDirectory() async {
-    return (await _getSettings()).workingDirectory;
+  /// Directories to scan for files (where chaos is)
+  Future<List<Directory>> getWorkingDirectories() async {
+    return (await _getSettings()).workingDirectories;
   }
 }

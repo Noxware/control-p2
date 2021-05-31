@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import 'package:control_p2/util/extensions/map.dart';
+import 'package:control_p2/util/extensions/string.dart';
 
 /// Represents a decision about how to clasify a file.
 ///
@@ -69,16 +70,23 @@ class Decision extends Equatable {
   List<Object?> get props => [name, directory, children];
 
   /// From yaml settings
-  factory Decision.fromYamlSettings(String name, dynamic content) {
+  factory Decision.fromYamlSettings(
+    String name,
+    dynamic content, {
+    Map vars = const {},
+  }) {
     if (content is String) {
-      return Decision(name: name, directory: Directory(content), children: []);
+      return Decision(
+          name: name,
+          directory: Directory(content.withVars(vars)),
+          children: []);
     } else if (content is Map) {
       final underscore =
           content.filter((e) => e.key.toString().startsWith('_'));
       final nonUnderscore = content.withoutKeys(underscore.keys);
 
       final directory = underscore['_directory'] != null
-          ? Directory(underscore['_directory'])
+          ? Directory((underscore['_directory'] as String).withVars(vars))
           : null;
       final children = nonUnderscore.entries
           .map((e) => Decision.fromYamlSettings(e.key, e.value))

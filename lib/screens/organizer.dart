@@ -40,7 +40,7 @@ class Organizer extends StatelessWidget {
   Widget _snapshot(BuildContext context, OrganizerSnapshot state) {
     return SplitView(
       axis: Axis.vertical,
-      ratio: 0.2,
+      ratio: 0.7,
       first: _viewer(context, state),
       second: _decisions(context, state),
     );

@@ -16,11 +16,17 @@ class OrganizerRepository {
   /// Get available resources to organize
   Future<List<Resource>> getResources() async {
     final dirs = await settingsRepository.getWorkingDirectories();
-    final listsFutures = dirs.map((d) => d
-        .list()
-        .where((e) => e is File)
-        .map((e) => Resource(e.absolute.uri))
-        .toList());
+    final listsFutures = dirs.map((d) async {
+      if (!await d.exists()) {
+        return const <Resource>[];
+      }
+
+      return d
+          .list()
+          .where((e) => e is File)
+          .map((e) => Resource(e.absolute.uri))
+          .toList();
+    });
 
     return (await Future.wait(listsFutures)).expand((f) => f).toList();
   }

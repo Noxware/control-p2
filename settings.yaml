@@ -1,5 +1,9 @@
+vars:
+  other: C:\Users\Noxware\Desktop\prueba/o2
+
 working_dirs:
   - C:\Users\Noxware\Desktop\prueba
+  - C:\Users\Noxware\Desktop\prueba\Flattened
 
 decisions:
   Tiene gatito:
@@ -7,4 +11,4 @@ decisions:
     Gordito: C:\Users\Noxware\Desktop\prueba/o/Gatitos/Gorditos
   Tiene perrito: C:\Users\Noxware\Desktop\prueba/o/Perritos
   Otro:
-    _directory: C:\Users\Noxware\Desktop\prueba/o/Otros
+    _directory: $other/Otros

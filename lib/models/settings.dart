@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import 'package:control_p2/util/extensions/string.dart';
+
 import 'decision.dart';
 
 /// Settings of the app
 @immutable
 class Settings extends Equatable {
   /// Custom variables defined by the user
-  final Map<String, dynamic> vars;
+  final Map vars;
 
   /// List of decisions configured by the user
   final List<Decision> decisions;
@@ -44,13 +46,14 @@ class Settings extends Equatable {
 
   /// Constructs a Settings object from yaml settings
   factory Settings.fromYamlSettings(Map yaml) {
-    final vars = (yaml['vars'] as Map? ?? {}).cast<String, dynamic>();
+    final vars = yaml['vars'] as Map? ?? {};
     final decisions = (yaml['decisions'] as Map? ?? {})
         .entries
-        .map((e) => Decision.fromYamlSettings(e.key, e.value))
+        .map((e) => Decision.fromYamlSettings(e.key, e.value, vars: vars))
         .toList();
-    final workingDirs =
-        (yaml['working_dirs'] as List).map((d) => Directory(d)).toList();
+    final workingDirs = (yaml['working_dirs'] as List)
+        .map((d) => Directory((d as String).withVars(vars)))
+        .toList();
 
     return Settings(
       vars: vars,

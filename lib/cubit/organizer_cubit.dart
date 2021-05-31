@@ -36,6 +36,7 @@ class OrganizerCubit extends Cubit<OrganizerState> {
       ));
     } catch (e, st) {
       emit(OrganizerError(e, st));
+      rethrow;
     }
   }
 
@@ -71,6 +72,7 @@ class OrganizerCubit extends Cubit<OrganizerState> {
       }
     } catch (e, st) {
       emit(OrganizerError(e, st));
+      rethrow;
     }
   }
 }

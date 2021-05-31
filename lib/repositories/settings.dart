@@ -39,4 +39,8 @@ class SettingsRepository {
   Future<List<Directory>> getWorkingDirectories() async {
     return (await _getSettings()).workingDirectories;
   }
+
+  Future<Map> getVars() async {
+    return (await _getSettings()).vars;
+  }
 }

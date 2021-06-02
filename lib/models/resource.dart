@@ -5,11 +5,17 @@ import 'package:meta/meta.dart';
 @immutable
 class Resource extends Equatable {
   final Uri uri;
+  final int? size;
+  final DateTime? mtime;
 
-  const Resource(this.uri);
+  const Resource({
+    required this.uri,
+    required this.size,
+    required this.mtime,
+  });
 
   @override
-  List<Object?> get props => [uri];
+  List<Object?> get props => [uri, size, mtime];
 
   bool get isLocal => uri.isScheme('file');
 

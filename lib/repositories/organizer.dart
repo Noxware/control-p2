@@ -21,11 +21,19 @@ class OrganizerRepository {
         return const <Resource>[];
       }
 
-      return d
-          .list()
-          .where((e) => e is File)
-          .map((e) => Resource(e.absolute.uri))
-          .toList();
+      return d.list().where((e) => e is File).asyncMap((e) async {
+        final f = e as File;
+
+        final uri = f.absolute.uri;
+        final size = await f.length();
+        final mtime = await f.lastModified();
+
+        return Resource(
+          uri: uri,
+          size: size,
+          mtime: mtime,
+        );
+      }).toList();
     });
 
     return (await Future.wait(listsFutures)).expand((f) => f).toList();

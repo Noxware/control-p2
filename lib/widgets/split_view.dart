@@ -6,6 +6,8 @@ class SplitView extends StatelessWidget {
   final Widget second;
   final double ratio;
   final Axis axis;
+  final Widget? firstTitle;
+  final Widget? secondTitle;
 
   const SplitView({
     Key? key,
@@ -13,13 +15,15 @@ class SplitView extends StatelessWidget {
     required this.second,
     this.ratio = 0.5,
     this.axis = Axis.horizontal,
+    this.firstTitle,
+    this.secondTitle,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return sv.SplitView(
       viewMode: _axisToViewMode(axis),
-      gripSize: 4,
+      gripSize: 2,
       controller: sv.SplitViewController(
         weights: [ratio, 1 - ratio],
       ),

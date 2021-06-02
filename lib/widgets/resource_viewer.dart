@@ -83,18 +83,18 @@ class _ResourceViewerState extends State<ResourceViewer> {
   }
 
   Widget _other(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Text(widget.resource.uri.toString()),
-          ElevatedButton(
-            child: Text('Open URI'),
-            onPressed: () {
-              launch(widget.resource.uri.toString());
-            },
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(widget.resource.uri.toString()),
+        SizedBox(height: 8),
+        ElevatedButton(
+          child: Text('Open URI'),
+          onPressed: () {
+            launch(widget.resource.uri.toString());
+          },
+        ),
+      ],
     );
   }
 

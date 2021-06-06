@@ -98,9 +98,9 @@ class Decision extends Equatable {
     }
   }
 
-  /// Check if the desicion is a final desicion.
+  /// Check if the decision is a final decision.
   ///
-  /// A final desicion is a desicion that has an asociated directory, so it can
+  /// A final decision is a decision that has an asociated directory, so it can
   /// be used as a target
   bool get isFinal => directory != null;
 }

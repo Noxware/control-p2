@@ -1,13 +1,16 @@
 vars:
   other: C:\Users\Noxware\Desktop\prueba/o2
+  wd: C:\Users\Noxware\Desktop\prueba
 
 working_dirs:
-  - C:\Users\Noxware\Desktop\prueba
-  - C:\Users\Noxware\Desktop\prueba\Flattened
+  - $wd
+  - $wd\Flattened
 
 decisions:
   Tiene gatito:
-    Chikito: C:\Users\Noxware\Desktop\prueba/o/Gatitos/Chikitos
+    Chikito:
+      Creo: C:\Users\Noxware\Desktop\prueba/o/Gatitos/Chikitos
+      Tal vez no: C:\Users\Noxware\Desktop\prueba/o/Gatitos/Gorditos
     Gordito: C:\Users\Noxware\Desktop\prueba/o/Gatitos/Gorditos
   Tiene perrito: C:\Users\Noxware\Desktop\prueba/o/Perritos
   Otro:

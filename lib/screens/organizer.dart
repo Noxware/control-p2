@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:collection/collection.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:control_p2/widgets/split_view.dart';
@@ -89,53 +88,30 @@ class Organizer extends StatelessWidget {
   }
 
   Widget _history(BuildContext context, OrganizerSnapshot state) {
-    final snapshotsHistory = context.read<OrganizerCubit>().snapshots;
-
-    final List<List<OrganizerSnapshot>> grouped = [];
-
-    for (final s in snapshotsHistory) {
-      final lastGroup = grouped.lastOrNull;
-
-      if (lastGroup == null || lastGroup.firstOrNull?.resource != s.resource) {
-        grouped.add([s]);
-      } else {
-        lastGroup.add(s);
-      }
-    }
+    final decisionFrames =
+        context.read<OrganizerCubit>().decisionFrames.reversed.toList();
 
     return ListView.builder(
-      itemCount: grouped.length,
+      itemCount: decisionFrames.length,
       itemBuilder: (context, index) {
-        final g = List<OrganizerSnapshot>.from(grouped[index]);
-        final f = g.removeAt(0);
+        final f = decisionFrames[index];
 
-        final c = g.map((s) {
-          return ListTile(title: Text('some desicion taked'));
+        final c = f.decisions.map((d) {
+          return ListTile(title: Text(d.name));
         }).toList();
 
         return ExpansionTile(
-          title: Text(p.basename(File.fromUri(f.resource!.uri).path)),
+          title: Text(
+            p.basename(File.fromUri(f.resource.uri).path),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
           childrenPadding: EdgeInsets.only(left: 32, top: 8, bottom: 8),
           expandedAlignment: Alignment.centerLeft,
           leading: Icon(Icons.description),
-          children: c.isNotEmpty ? c : [Text('No desicion taked')],
+          children: c.isNotEmpty ? c : [Text('No decision taked')],
         );
       },
-    );
-
-    return ListView(
-      children: [
-        ExpansionTile(
-          title: Text('Prueba 1'),
-          childrenPadding: EdgeInsets.only(left: 32, top: 8, bottom: 8),
-          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          expandedAlignment: Alignment.centerLeft,
-          leading: Icon(Icons.description),
-          children: [
-            Text('Prueba 1.1'),
-          ],
-        )
-      ],
     );
   }
 

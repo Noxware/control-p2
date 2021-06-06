@@ -67,19 +67,19 @@ class _ResourceViewerState extends State<ResourceViewer> {
   }
 
   Widget _image(BuildContext context) {
-    return ClipRect(
+    /*return ClipRect(
       child: PhotoView(
         imageProvider: FileImage(File.fromUri(widget.resource.uri)),
         /*backgroundDecoration: BoxDecoration(
           color: Colors.transparent,
         ),*/
       ),
-    );
+    );*/
 
-    /*return ExtendedImage.file(
+    return ExtendedImage.file(
       File.fromUri(widget.resource.uri),
       mode: ExtendedImageMode.gesture,
-    );*/
+    );
   }
 
   Widget _other(BuildContext context) {

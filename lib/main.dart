@@ -21,6 +21,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.dark,
       home: BlocProvider(
         create: (context) => OrganizerCubit(
           organizerRepository: OrganizerRepository(

@@ -5,6 +5,7 @@ import 'package:yaml/yaml.dart';
 import 'package:flutter/services.dart';
 
 import 'package:control_p2/models/models.dart';
+import 'package:control_p2/constants.dart';
 
 /// Interact with settings independently of their origin
 class SettingsRepository {
@@ -12,17 +13,22 @@ class SettingsRepository {
 
   /// Get the LOCAL settings file loaded as a model
   static Future<Settings> _getSettings() async {
-    final file = File('./settings.yaml');
+    var file = File('./settings.yaml');
+    final override = File(settingsPathOverride);
 
-    // Sync because if two parallel calls are made, one is going to try to delete
-    // a non existing file
-    if (!kReleaseMode && file.existsSync()) {
-      file.deleteSync();
-    }
+    if (await override.exists()) {
+      file = override;
+    } else {
+      // Sync because if two parallel calls are made, one is going to try to delete
+      // a non existing file
+      if (!kReleaseMode && file.existsSync()) {
+        file.deleteSync();
+      }
 
-    if (!await file.exists()) {
-      final template = await rootBundle.loadString('assets/settings.yaml');
-      await file.writeAsString(template);
+      if (!await file.exists()) {
+        final template = await rootBundle.loadString('assets/settings.yaml');
+        await file.writeAsString(template);
+      }
     }
 
     final content = await file.readAsString();

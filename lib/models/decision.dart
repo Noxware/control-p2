@@ -89,7 +89,7 @@ class Decision extends Equatable {
           ? Directory((underscore['_directory'] as String).withVars(vars))
           : null;
       final children = nonUnderscore.entries
-          .map((e) => Decision.fromYamlSettings(e.key, e.value))
+          .map((e) => Decision.fromYamlSettings(e.key, e.value, vars: vars))
           .toList();
 
       return Decision(name: name, children: children, directory: directory);

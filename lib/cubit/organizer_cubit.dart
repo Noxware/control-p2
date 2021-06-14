@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:control_p2/models/models.dart';
 import 'package:control_p2/repositories/organizer.dart';
+import 'package:control_p2/util/extensions/uri.dart';
 
 part 'organizer_state.dart';
 
@@ -74,6 +75,12 @@ class OrganizerCubit extends Cubit<OrganizerState> {
   /// Omit the clasification of the current resource.
   Future<void> omit() {
     return takeDecision(const Decision.omit());
+  }
+
+  /// Launch the current resource uri.
+  Future<void> launch() async {
+    final snapshot = state as OrganizerSnapshot;
+    return snapshot.resource?.uri.launch();
   }
 
   /// Take a decision over the current resource

@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:control_p2/models/models.dart';
-import 'package:control_p2/widgets/friendly_error.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import 'package:control_p2/models/models.dart';
+import 'package:control_p2/widgets/friendly_error.dart';
+import 'package:control_p2/util/extensions/uri.dart';
 
 class ResourceViewer extends StatefulWidget {
   final Resource resource;
@@ -91,7 +91,7 @@ class _ResourceViewerState extends State<ResourceViewer> {
         ElevatedButton(
           child: Text('Open URI'),
           onPressed: () {
-            launch(widget.resource.uri.toString());
+            widget.resource.uri.launch();
           },
         ),
       ],

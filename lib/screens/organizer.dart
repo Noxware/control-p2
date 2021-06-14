@@ -89,6 +89,10 @@ class Organizer extends StatelessWidget {
           value: 'omit',
         ),
         PopupMenuItem(
+          child: Text('Launch URI'),
+          value: 'launch',
+        ),
+        PopupMenuItem(
           child: Text('Cancel'),
           value: 'cancel',
         ),
@@ -100,6 +104,8 @@ class Organizer extends StatelessWidget {
       case 'omit':
         context.read<OrganizerCubit>().omit();
         break;
+      case 'launch':
+        context.read<OrganizerCubit>().launch();
     }
   }
 

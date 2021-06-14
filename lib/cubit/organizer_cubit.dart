@@ -71,6 +71,11 @@ class OrganizerCubit extends Cubit<OrganizerState> {
     }
   }
 
+  /// Omit the clasification of the current resource.
+  Future<void> omit() {
+    return takeDecision(const Decision.omit());
+  }
+
   /// Take a decision over the current resource
   Future<void> takeDecision(Decision decision) async {
     final snapshot = state as OrganizerSnapshot;

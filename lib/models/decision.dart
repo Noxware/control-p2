@@ -28,6 +28,12 @@ class Decision extends Equatable {
     required this.directory,
   });
 
+  /// Build a decision that does nothing with a resource.
+  const Decision.omit({String? name})
+      : name = name ?? 'Omit',
+        children = const [],
+        directory = null;
+
   /// Construct from json
   factory Decision.fromJson(Map json) {
     final childrenJson = json['children'] as List?;
@@ -100,7 +106,9 @@ class Decision extends Equatable {
 
   /// Check if the decision is a final decision.
   ///
-  /// A final decision is a decision that has an asociated directory, so it can
-  /// be used as a target
-  bool get isFinal => directory != null;
+  /// A final decision is a decision that has no children.
+  ///
+  /// INVALID OLD DEFINITION: A final decision is a decision that has an
+  /// asociated directory, so it can be used as a target
+  bool get isFinal => children.isEmpty;
 }

@@ -62,7 +62,45 @@ class Organizer extends StatelessWidget {
   }
 
   Widget _viewer(BuildContext context, OrganizerSnapshot state) {
-    return ResourceViewer(resource: state.resource!);
+    return GestureDetector(
+      onTapDown: (details) =>
+          _handleViewerMenu(context, details.globalPosition),
+      child: ResourceViewer(
+        resource: state.resource!,
+      ),
+    );
+  }
+
+  // https://stackoverflow.com/questions/54280296/how-to-show-a-menu-at-press-finger-mouse-cursor-position-in-flutter
+  Future<void> _handleViewerMenu(
+      BuildContext context, Offset tapPosition) async {
+    final RenderBox overlay =
+        Overlay.of(context)!.context.findRenderObject() as RenderBox;
+
+    final ans = await showMenu(
+      context: context,
+      position: RelativeRect.fromRect(
+          tapPosition & Size(40, 40), // smaller rect, the touch area
+          Offset.zero & overlay.size // Bigger rect, the entire screen
+          ),
+      items: [
+        PopupMenuItem(
+          child: Text('Omit'),
+          value: 'omit',
+        ),
+        PopupMenuItem(
+          child: Text('Cancel'),
+          value: 'cancel',
+        ),
+      ],
+      elevation: 8.0,
+    );
+
+    switch (ans) {
+      case 'omit':
+        context.read<OrganizerCubit>().omit();
+        break;
+    }
   }
 
   Widget _decisions(BuildContext context, OrganizerSnapshot state) {

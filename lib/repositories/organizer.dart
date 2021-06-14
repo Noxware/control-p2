@@ -52,6 +52,10 @@ class OrganizerRepository {
       throw 'The decision must be a final decision.';
     }
 
+    if (d.directory == null) {
+      return;
+    }
+
     final rFile = File.fromUri(r.uri);
     await rFile.safeMoveToDirectory(d.directory!);
   }
